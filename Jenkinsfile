@@ -1,17 +1,28 @@
+
 pipeline {
     agent any
 
     stages {
         stage('Checkout') {
             steps {
-                echo 'Jenkins pipeline file loaded from GitHub.'
+                echo 'Source code checked out from GitHub.'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Next, we will build the Spring Boot application.'
+                bat '.\\mvnw.cmd -B clean package'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Spring Boot application built successfully!'
+        }
+
+        failure {
+            echo 'Build failed. Check the console output.'
         }
     }
 }
